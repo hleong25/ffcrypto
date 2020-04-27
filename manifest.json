@@ -8,8 +8,11 @@
 
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["out/javascript/ffcrypto.js"]
+      "matches": ["file:///home/henry/personal/work/ffcrypto/src/html/sample.html"],
+      "js": [
+        "out/node_modules/lib/loglevel.js",
+        "out/src/typescript/ffcrypto.js"
+      ]
     }
   ]
 

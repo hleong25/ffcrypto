@@ -5,7 +5,11 @@
         "module": "CommonJS",
         "sourceMap": true,
         "alwaysStrict": true,
-        "outDir": "out/javascript"
+        "outDir": "out",
+        "allowJs": true
     },
-    "include": ["src/typescript/**/*.ts"]
+    "include": [
+        "node_modules/loglevel/lib/loglevel.js",
+        "src/typescript/**/*.ts"
+    ]
 }
