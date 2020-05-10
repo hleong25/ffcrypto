@@ -1,4 +1,3 @@
-console.log("henry -- " + (new Date).toISOString());
 
 class BufUtils {
 
