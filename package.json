@@ -5,14 +5,15 @@
   "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpackdev": "npx webpack -d --display-modules --progress",
-    "webpackprod": "npx webpack -p --display-modules --progress"
+    "webpackdev": "npx webpack -d --display-modules --progress --auto",
+    "webpackprod": "npx webpack -p --display-modules --progress --auto"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "ts-loader": "^7.0.3",
     "typescript": "^3.8.3",
-    "webpack": "^4.43.0"
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }
