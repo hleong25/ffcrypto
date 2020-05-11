@@ -9,7 +9,7 @@
         "file:///*"
       ],
       "js": [
-        "dist/main.js"
+        "dist/bundle.js"
       ]
     }
   ]
