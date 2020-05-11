@@ -1,0 +1,10 @@
+{
+  "name": "ffcrypto",
+  "version": "1.0.0",
+  "description": "tbd",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
