@@ -2,8 +2,11 @@
   "name": "ffcrypto",
   "version": "1.0.0",
   "description": "tbd",
+  "main": "dist/bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpackdev": "npx webpack -d --display-modules --progress",
+    "webpackprod": "npx webpack -p --display-modules --progress"
   },
   "author": "",
   "license": "ISC",
