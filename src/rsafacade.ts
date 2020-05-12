@@ -50,7 +50,7 @@ export class RsaFacade {
   async importJsonWebKey(type: string, jwk: JsonWebKey): Promise<CryptoKey> {
     log.log("importing "+type+" JsonWebKey")
     const algo = this.getAlgorithm();
-    return this.getSubtle().importKey("jwk", jwk, algo, true, [type])
+    return this.getSubtle().importKey("jwk", jwk, algo, true, [type]);
   }
 
   async importJsonWebKeys(privateKey: JsonWebKey, publicKey: JsonWebKey): Promise<CryptoKeyPair> {

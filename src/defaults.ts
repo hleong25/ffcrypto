@@ -41,7 +41,7 @@ export function getDefaults(): defaults {
 
     return {
         privateKey: useDefaultPrivateKey ? _privateKey : null,
-        publicKey: useDefaultPublicKey ? _privateKey : null,
+        publicKey: useDefaultPublicKey ? _publicKey : null,
         encryptedData: useEncryptedData ? _encryptedData : "",
     };
 }
