@@ -9,6 +9,5 @@ try {
     main();
 
 } catch (err) {
-    log.error("Application crashed");
-    log.error(err);
+    log.error("Application crashed.", err);
 }
