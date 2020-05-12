@@ -1,8 +1,13 @@
+import log from "loglevel";
+
+log.enableAll();
+
+import _ from "lodash";
 import { updateTextbox } from "./domutils";
 import { RsaFacade } from "./rsafacade";
 import { getDefaults } from "./defaults";
 
-console.log("main.ts -- " + (new Date).toISOString());
+log.info("ffcrypto starting " + (new Date).toISOString());
 
 let ffcryptoDefaults = getDefaults();
 
@@ -13,7 +18,7 @@ updateTextbox("#encrypted-data", ffcryptoDefaults.encryptedData);
 const rsaFacade = new RsaFacade();
 
 function populateKeys() {
-    console.log("generating rsa keys");
+    log.log("generating rsa keys");
 
     rsaFacade.generateKey()
         .then(keyPair => {
@@ -43,7 +48,10 @@ if ((ffcryptoDefaults.privateKey === null) && (ffcryptoDefaults.publicKey === nu
 
     rsaFacade.importJsonWebKeys(ffcryptoDefaults.privateKey, ffcryptoDefaults.publicKey)
         .then(keypair => {
-            const op: Operation = ffcryptoDefaults.encryptedData ? Operation.DECRYPT : Operation.ENCRYPT;
+            const op: Operation = !_.isEmpty(ffcryptoDefaults.encryptedData) ?  Operation.ENCRYPT: Operation.DECRYPT ;
+
+            log.log("op - " + op);
+
 
             switch (+op) {
                 case Operation.ENCRYPT:
@@ -58,7 +66,7 @@ if ((ffcryptoDefaults.privateKey === null) && (ffcryptoDefaults.publicKey === nu
 
                     break;
                 case Operation.DECRYPT:
-                    console.log("decrypting...");
+                    log.log("decrypting...");
 
                     rsaFacade.decrypt(keypair.privateKey, ffcryptoDefaults.encryptedData)
                         .then(base64data => {
