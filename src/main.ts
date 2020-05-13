@@ -3,6 +3,7 @@ import { updateTextbox } from "./domutils";
 import { RsaFacade } from "./rsafacade";
 import { getDefaults } from "./defaults";
 import log from "loglevel";
+import { localPersist, localPersistJson } from "./localStorageFacade";
 
 const ffcryptoDefaults = getDefaults();
 const rsaFacade = new RsaFacade();
@@ -32,13 +33,13 @@ function populateKeys() {
             rsaFacade.exportKey(keyPair.privateKey)
                 .then(exportedKey => {
                     updateTextbox("#exported-private-key", exportedKey);
-                    ffcryptoDefaults.privateKey = <JsonWebKey>JSON.parse(exportedKey);
+                    localPersist('privateKey', JSON.parse(exportedKey));
                 });
 
             rsaFacade.exportKey(keyPair.publicKey)
                 .then(exportedKey => {
                     updateTextbox("#exported-public-key", exportedKey);
-                    ffcryptoDefaults.publicKey = <JsonWebKey>JSON.parse(exportedKey);
+                    localPersist('publicKey', JSON.parse(exportedKey));
                 });
         })
 }
@@ -76,6 +77,7 @@ function sampleEncrypt(keypair: CryptoKeyPair) {
     rsaFacade.encrypt(keypair.publicKey, encodedMsg)
         .then(base64data => {
             updateTextbox('#encrypted-data', base64data)
+            localPersist('encryptedData', base64data);
         });
 }
 
