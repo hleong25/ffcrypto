@@ -35,7 +35,7 @@ export function main() {
     }
 
 
-    if ((ffcryptoDefaults.privateKey === null) && (ffcryptoDefaults.publicKey === null)) {
+    if ((ffcryptoDefaults.privateKey === undefined) && (ffcryptoDefaults.publicKey === undefined)) {
         populateKeys();
     } else {
         enum Operation {
@@ -43,7 +43,10 @@ export function main() {
             DECRYPT,
         }
 
-        rsaFacade.importJsonWebKeys(ffcryptoDefaults.privateKey, ffcryptoDefaults.publicKey)
+        const privKey: JsonWebKey = ffcryptoDefaults.privateKey || {};
+        const pubKey: JsonWebKey = ffcryptoDefaults.publicKey || {};
+
+        rsaFacade.importJsonWebKeys(privKey, pubKey)
             .then(keypair => {
                 const op: Operation = _.isEmpty(ffcryptoDefaults.encryptedData) ? Operation.ENCRYPT : Operation.DECRYPT;
 
