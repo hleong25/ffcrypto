@@ -37,7 +37,7 @@ export interface defaults {
 export function getDefaults(): defaults {
     const useDefaultPrivateKey: boolean = false;
     const useDefaultPublicKey: boolean = false;
-    const useEncryptedData: boolean = true;
+    const useEncryptedData: boolean = useDefaultPrivateKey && useDefaultPublicKey;
 
     return {
         privateKey: useDefaultPrivateKey ? _privateKey : undefined,
