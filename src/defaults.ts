@@ -29,8 +29,8 @@ let _publicKey: JsonWebKey = {
 let _encryptedData: string = "LJgj/Vnk7q8ji2ygJlx4si+2/PaR6gJgvIzl0ZjMzRvkRGIiiIX3I+XtGbLyvUiXT3pEBC3Ph0WDFfojU8KOHk7oh61vQ6VnmenhnmRtNELeHfyUTZz+1REo2EGLwZ8Qisdi1SsCKZuPMIHBEeUHjp493n0n9o3PY2c44eLA+2iZ1yTZRRJz0x1+prvcTby9FC+J6/fIBkwHJzNJYU7gxVfOKEoo1zGiJiDyAlL2lwXbU+GE6C1tbL7BhBibB6wsAKcs5vcciOG88qTR5JSPLBZcVabRggEqMv1c+VnvVVQbCAeN8bbV9WqJ9KqzGbdPX9zf0MbqPpbrPQbOn1YXr6WjtT69CCvnsp/cDqCF8b+j/g5s3n1SoocVH8gp3cQSS4yjkH2yOOTqQAPk0Mbj2vgBvzqD+zml0yUv/nU3qPxN+jBdhVRqJlh1a9BggiAdu0Tr7avwSerVzQ+H/Rr3clny/EzHhh9hakQYWr1qC2SDx5widXNVgc8DjO+0/r8j/jEbFM5OIn7CHPqfMuYQt8CanEsJT2eyidZ8Gxh8voWySmmEgZ2kBGeuCpFrOhnd539Yn9w6lkNFBTmTOfclZaKGTmpRr5cUgZEozY/ahEBetXQ/MluMDqr24g9ag/5Jqb/cjcmpy5S5m0zScIRczzc3ItgNAyocYKeOOYj3PDU=";
 
 export interface defaults {
-    privateKey: JsonWebKey | null,
-    publicKey: JsonWebKey | null,
+    privateKey: JsonWebKey,
+    publicKey: JsonWebKey,
     encryptedData: string
 };
 
@@ -40,8 +40,8 @@ export function getDefaults(): defaults {
     const useEncryptedData: boolean = true;
 
     return {
-        privateKey: useDefaultPrivateKey ? _privateKey : null,
-        publicKey: useDefaultPublicKey ? _publicKey : null,
+        privateKey: useDefaultPrivateKey ? _privateKey : {},
+        publicKey: useDefaultPublicKey ? _publicKey : {},
         encryptedData: useEncryptedData ? _encryptedData : "",
     };
 }
