@@ -3,7 +3,7 @@ import { updateTextbox } from "./domutils";
 import { RsaFacade } from "./rsafacade";
 import { getDefaults } from "./defaults";
 import log from "loglevel";
-import { localPersist, localPersistJson } from "./localStorageFacade";
+import { LocalStorageFacade } from "./localStorageFacade";
 
 const ffcryptoDefaults = getDefaults();
 const rsaFacade = new RsaFacade();
@@ -33,18 +33,20 @@ function populateKeys() {
             rsaFacade.exportKey(keyPair.privateKey)
                 .then(exportedKey => {
                     updateTextbox("#exported-private-key", exportedKey);
-                    localPersist('privateKey', JSON.parse(exportedKey));
+                    LocalStorageFacade.persist('privateKey', exportedKey);
                 });
 
             rsaFacade.exportKey(keyPair.publicKey)
                 .then(exportedKey => {
                     updateTextbox("#exported-public-key", exportedKey);
-                    localPersist('publicKey', JSON.parse(exportedKey));
+                    LocalStorageFacade.persist('publicKey', exportedKey);
                 });
         })
 }
 
 function doOperation() {
+    log.debug("do operation...");
+
     enum Operation {
         ENCRYPT,
         DECRYPT,
@@ -75,9 +77,10 @@ function sampleEncrypt(keypair: CryptoKeyPair) {
     const encodedMsg = enc.encode("hello world\nhenry leong");
 
     rsaFacade.encrypt(keypair.publicKey, encodedMsg)
-        .then(base64data => {
-            updateTextbox('#encrypted-data', base64data)
-            localPersist('encryptedData', base64data);
+        .then(base64str => {
+            updateTextbox('#encrypted-data', base64str)
+            LocalStorageFacade.persist('encryptedData', base64str);
+
         });
 }
 
@@ -85,9 +88,9 @@ function sampleDecrypt(keypair: CryptoKeyPair) {
     log.info("decrypting...");
 
     rsaFacade.decrypt(keypair.privateKey, ffcryptoDefaults.encryptedData)
-        .then(base64data => {
+        .then(base64buf => {
             const dec = new TextDecoder();
-            const data = dec.decode(base64data);
+            const data = dec.decode(base64buf);
             updateTextbox('#decrypted-data', data)
         });
 }

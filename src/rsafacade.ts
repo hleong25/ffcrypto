@@ -21,12 +21,8 @@ export class RsaFacade {
     return this.getSubtle().generateKey(algo, true, ["encrypt", "decrypt"])
   }
 
-  async exportKey(key: CryptoKey): Promise<string> {
-    return this.getSubtle().exportKey("jwk", key)
-      .then(jwk => {
-        return JSON.stringify(jwk, null, ' ');
-      });
-
+  async exportKey(key: CryptoKey): Promise<JsonWebKey> {
+    return this.getSubtle().exportKey("jwk", key);
   }
 
   async importKey(type: string, jsonkey: string): Promise<CryptoKey> {
@@ -48,22 +44,28 @@ export class RsaFacade {
   }
 
   async importJsonWebKey(type: string, jwk: JsonWebKey): Promise<CryptoKey> {
-    log.log("importing "+type+" JsonWebKey")
+    log.log("importing " + type + " JsonWebKey")
+    log.info("jwk type:", typeof jwk);
     const algo = this.getAlgorithm();
     return this.getSubtle().importKey("jwk", jwk, algo, true, [type]);
   }
 
   async importJsonWebKeys(privateKey: JsonWebKey, publicKey: JsonWebKey): Promise<CryptoKeyPair> {
 
-    const privKey: CryptoKey = await this.importJsonWebKey("decrypt", privateKey);
-    const pubKey: CryptoKey = await this.importJsonWebKey("encrypt", publicKey);
+    try {
+      const privKey: CryptoKey = await this.importJsonWebKey("decrypt", privateKey);
+      const pubKey: CryptoKey = await this.importJsonWebKey("encrypt", publicKey);
 
-    const keypair: CryptoKeyPair = {
-      privateKey: privKey,
-      publicKey: pubKey
+      const keypair: CryptoKeyPair = {
+        privateKey: privKey,
+        publicKey: pubKey
+      }
+
+      return Promise.resolve(keypair);
+    } catch (err) {
+      log.error("importing JsonWebKey failed.", err);
+      throw err;
     }
-
-    return Promise.resolve(keypair);
   }
 
   async encrypt(publicKey: CryptoKey, data: ArrayBuffer): Promise<string> {

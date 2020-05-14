@@ -1,46 +1,40 @@
 import log from "loglevel";
 import _ from "lodash";
 
-interface PersistData {
-    timestamp: number,
-    data: string,
-}
+export namespace LocalStorageFacade {
 
-export function localPersist(key: string, value: string) {
-    let data: PersistData = {
-        timestamp: _.now(),
-        data: value,
-    };
+    interface PersistData {
+        timestamp: number,
+        data: any,
+    }
 
-    log.debug("local persist key:" + key);
+    export function persist(key: string, value: any) {
+        let data: PersistData = {
+            timestamp: _.now(),
+            data: value,
+        };
 
-    let jsonData = JSON.stringify(data);
+        log.debug("local persist key:" + key);
 
-    log.info("local persist timestamp:" + (new Date(data.timestamp)).toISOString() + " key:" + key);
-    log.debug("local persist value: " + value);
+        let jsonData = JSON.stringify(data);
 
-    window.localStorage.setItem(key, jsonData);
-}
+        log.info("local persist timestamp:" + (new Date(data.timestamp)).toISOString() 
+        + " key:" + key + " value-type:" + typeof value);
+        // log.debug("local persist value: " + value);
 
-export function localFetch(key: string): any {
-    log.debug("local fetch key:" + key);
-    let str = window.localStorage.getItem(key) || '';
+        window.localStorage.setItem(key, jsonData);
+    }
 
-    let data: PersistData = JSON.parse(str);
+    export function fetch(key: string): any {
+        log.debug("local fetch key:" + key);
+        let str = window.localStorage.getItem(key) || '';
 
-    log.info("local fetch timestamp:" + (new Date(data.timestamp)).toISOString() + " key:" + key); 
-    log.debug("local fetch value: " + data);
+        let data: PersistData = JSON.parse(str);
 
-    return data.data;
-}
+        log.info("local fetch timestamp:" + (new Date(data.timestamp)).toISOString() + " key:" + key);
+        // log.debug("local fetch value: " + data.data);
 
+        return data.data;
+    }
 
-export function localPersistJson(key: string, value: object) {
-    let str = JSON.stringify(value);
-    localPersist(key, str);
-}
-
-export function localFetchJson(key: string): any {
-    let data: PersistData = localFetch(key);
-    return JSON.parse(data.data);
 }

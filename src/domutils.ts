@@ -1,7 +1,7 @@
 import log from "loglevel";
 import _ from "lodash";
 
-export function updateTextbox(txtboxId: string, object?: JsonWebKey | string) {
+export function updateTextbox(txtboxId: string, object: any) {
   const txtbox = document.querySelector(txtboxId);
 
   if (txtbox) {

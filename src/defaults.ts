@@ -1,4 +1,5 @@
-import { localFetch, localFetchJson } from "./localStorageFacade";
+import { LocalStorageFacade } from "./localStorageFacade";
+import log from "loglevel";
 
 export interface defaults {
     privateKey?: JsonWebKey,
@@ -9,11 +10,16 @@ export interface defaults {
 export function getDefaults(): defaults {
     const useDefaultPrivateKey: boolean = true;
     const useDefaultPublicKey: boolean = useDefaultPrivateKey;
-    const useEncryptedData: boolean = true && useDefaultPrivateKey && useDefaultPublicKey;
+    const useEncryptedData: boolean = useDefaultPrivateKey && useDefaultPublicKey;
 
-    return {
-        privateKey: useDefaultPrivateKey ? localFetch('privateKey') : undefined,
-        publicKey: useDefaultPublicKey ? localFetch('publicKey') : undefined,
-        encryptedData: useEncryptedData ? localFetch('encryptedData') : "",
-    };
+    try {
+        return {
+            privateKey: useDefaultPrivateKey ? LocalStorageFacade.fetch('privateKey') : undefined,
+            publicKey: useDefaultPublicKey ? LocalStorageFacade.fetch('publicKey') : undefined,
+            encryptedData: useEncryptedData ? LocalStorageFacade.fetch('encryptedData') : "",
+        };
+    } catch (err) {
+        log.error("failed to get defaults. err:", err);
+        throw err;
+    }
 }
