@@ -11,7 +11,7 @@ const rsaFacade = new RsaFacade();
 export function main() {
     showDefaults();
 
-    if (_.isUndefined(ffcryptoDefaults.privateKey) && _.isUndefined(ffcryptoDefaults.publicKey)) {
+    if (_.isNull(ffcryptoDefaults.privateKey) && _.isNull(ffcryptoDefaults.publicKey)) {
         populateKeys();
     } else {
         doOperation();
@@ -80,7 +80,6 @@ function sampleEncrypt(keypair: CryptoKeyPair) {
         .then(base64str => {
             updateTextbox('#encrypted-data', base64str)
             LocalStorageFacade.persist('encryptedData', base64str);
-
         });
 }
 

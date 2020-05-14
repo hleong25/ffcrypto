@@ -1,7 +1,7 @@
 import log from "loglevel";
 import { main } from "./main";
 
-log.enableAll();
+log.enableAll(false);
 
 try {
     log.info("ffcrypto starting " + (new Date).toISOString());

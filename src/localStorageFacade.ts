@@ -18,8 +18,8 @@ export namespace LocalStorageFacade {
 
         let jsonData = JSON.stringify(data);
 
-        log.info("local persist timestamp:" + (new Date(data.timestamp)).toISOString() 
-        + " key:" + key + " value-type:" + typeof value);
+        log.info("local persist timestamp:" + (new Date(data.timestamp)).toISOString()
+            + " key:" + key + " value-type:" + typeof value);
         // log.debug("local persist value: " + value);
 
         window.localStorage.setItem(key, jsonData);
@@ -27,9 +27,12 @@ export namespace LocalStorageFacade {
 
     export function fetch(key: string): any {
         log.debug("local fetch key:" + key);
-        let str = window.localStorage.getItem(key) || '';
+        let str = window.localStorage.getItem(key);
+        let data: PersistData = str && JSON.parse(str);
 
-        let data: PersistData = JSON.parse(str);
+        if (data === null) {
+            return null;
+        }
 
         log.info("local fetch timestamp:" + (new Date(data.timestamp)).toISOString() + " key:" + key);
         // log.debug("local fetch value: " + data.data);
