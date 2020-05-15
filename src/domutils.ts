@@ -6,9 +6,19 @@ export function updateTextbox(txtboxId: string, object: any) {
 
   if (txtbox) {
     const data = (typeof object === 'string') ? object : JSON.stringify(object, null, " ");
-    log.log("updating txtbox:" + txtboxId + " with " +  data.substr(0, 80) + ((data.length > 80) ? "..." : ""));
+    log.log("updating txtbox:" + txtboxId + " with " + data.substr(0, 80) + ((data.length > 80) ? "..." : ""));
     txtbox.textContent = data;
   } else {
     log.log("txtbox:" + txtboxId + " not found");
+  }
+}
+
+export function getComponentById(id: string): Element | null {
+  let elem = document.getElementById(id);
+  if (elem) {
+    return elem;
+  } else {
+    log.warn("failed to get component by id:" + id);
+    return null;
   }
 }

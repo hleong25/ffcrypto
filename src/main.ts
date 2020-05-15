@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { updateTextbox } from "./domutils";
+import { updateTextbox, getComponentById } from "./domutils";
 import { RsaFacade } from "./rsafacade";
 import { getDefaults } from "./defaults";
 import log from "loglevel";
@@ -11,11 +11,13 @@ const rsaFacade = new RsaFacade();
 export function main() {
     showDefaults();
 
-    if (_.isNull(ffcryptoDefaults.privateKey) && _.isNull(ffcryptoDefaults.publicKey)) {
-        populateKeys();
-    } else {
-        doOperation();
-    }
+    bindUI();
+
+    // if (_.isNull(ffcryptoDefaults.privateKey) && _.isNull(ffcryptoDefaults.publicKey)) {
+    //     populateKeys();
+    // } else {
+    //     doOperation();
+    // }
 }
 
 function showDefaults() {
@@ -24,8 +26,20 @@ function showDefaults() {
     updateTextbox("#encrypted-data", ffcryptoDefaults.encryptedData || '');
 }
 
-function populateKeys() {
+function bindUI() {
+    log.log("binding ui...");
+    let btn = getComponentById('generate-keys') as HTMLButtonElement;
+
+    if (btn) {
+        btn.onclick = populateKeys;
+    }
+}
+
+export function populateKeys() {
     log.log("generating rsa keys");
+
+    updateTextbox("#exported-private-key", "generating...");
+    updateTextbox("#exported-public-key", "generating...");
 
     rsaFacade.generateKey()
         .then(keyPair => {
