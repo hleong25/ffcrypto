@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <html>
-    <style>
-        textarea {
-            width: 800px;
-            height: 300px;
-        }
-    </style>
-    <body>
-        <h1>ffcrypto demo</h1>
+<style>
+    div {
+        margin-top: 1em;
+    }
+    textarea {
+        width: 800px;
+        height: 300px;
+    }
+</style>
 
+<body>
+    <h1>ffcrypto demo</h1>
+
+    <div id="ops">
         <button id="generate-keys">generate keys</button>
+        <button id="persisted-data">load stored data</button>
+    </div>
 
+    <div id="debug-keys" style="display: none;">
         <p>private-key</p>
         <textarea id="exported-private-key"></textarea>
 
         <p>public-key</p>
         <textarea id="exported-public-key"></textarea>
+    </div>
 
+    <!-- <div id="sample-data" style="display: none;">
         <p>encrypted data</p>
         <textarea id="encrypted-data"></textarea>
 
         <p>decrypted data</p>
         <textarea id="decrypted-data"></textarea>
-    </body>
+    </div> -->
+
+    <div id="data-box">
+        <button id="encrypt-data">encrypt data</button>
+        <button id="decrypt-data">decrypt data</button>
+
+        <br/>
+        <textarea id="data" placeholder="text to encrypt"></textarea>
+    </div>
+</body>
+
 </html>

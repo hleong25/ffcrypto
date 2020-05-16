@@ -12,7 +12,7 @@ export class RsaFacade {
       name: "RSA-OAEP",
       modulusLength: 4096,
       publicExponent: new Uint8Array([1, 0, 1]),
-      hash: "SHA-256"
+      hash: "SHA-256",
     };
   }
 
@@ -45,7 +45,7 @@ export class RsaFacade {
 
   async importJsonWebKey(type: string, jwk: JsonWebKey): Promise<CryptoKey> {
     log.log("importing " + type + " JsonWebKey")
-    log.info("jwk type:", typeof jwk);
+    // log.log(type, "jwk", jwk);
     const algo = this.getAlgorithm();
     return this.getSubtle().importKey("jwk", jwk, algo, true, [type]);
   }
@@ -68,8 +68,21 @@ export class RsaFacade {
     }
   }
 
+  private withinEncryptionLimits(algo: RsaHashedKeyGenParams, data: ArrayBuffer) {
+    // max that this rsa oaep can encrypt is 446 bytes.
+    // https://crypto.stackexchange.com/questions/42097/what-is-the-maximum-size-of-the-plaintext-message-for-rsa-oaep
+
+    const maxlen = 446;
+
+    if (data.byteLength > maxlen) {
+      throw new RangeError("Data("+data.byteLength+") to encrypt is over the maximum length "+maxlen);
+    }
+  }
+
   async encrypt(publicKey: CryptoKey, data: ArrayBuffer): Promise<string> {
     const algo = this.getAlgorithm();
+    this.withinEncryptionLimits(algo, data);
+
     return this.getSubtle().encrypt(algo, publicKey, data)
       .then(buf => BufUtils.base64encode(buf));
   }
