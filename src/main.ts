@@ -9,21 +9,7 @@ const ffcryptoDefaults = getDefaults();
 const rsaFacade = new RsaFacade();
 
 export function main() {
-    showDefaults();
-
     bindUI();
-
-    // if (_.isNull(ffcryptoDefaults.privateKey) && _.isNull(ffcryptoDefaults.publicKey)) {
-    //     populateKeys();
-    // } else {
-    //     doOperation();
-    // }
-}
-
-function showDefaults() {
-    updateTextbox("exported-private-key", ffcryptoDefaults.privateKey || '');
-    updateTextbox("exported-public-key", ffcryptoDefaults.publicKey || '');
-    // updateTextbox("#encrypted-data", ffcryptoDefaults.encryptedData || '');
 }
 
 function bindUI() {
