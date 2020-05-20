@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { updateTextbox, getComponentById } from "./domutils";
-import { RsaFacade } from "./rsafacade";
+import { RsaFacade } from "./crypto/rsafacade";
 import { getDefaults } from "./defaults";
 import log from "loglevel";
 import { LocalStorageFacade } from "./localStorageFacade";

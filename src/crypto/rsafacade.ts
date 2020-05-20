@@ -1,4 +1,4 @@
-import { BufUtils } from "./bufutils";
+import { BufUtils } from "../bufutils";
 import log from "loglevel";
 
 export class RsaFacade {
