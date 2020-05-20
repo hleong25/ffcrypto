@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { updateTextbox, getComponentById } from "./domutils";
+import { updateTextbox, getComponentById } from "./utils/domutils";
 import { RsaFacade } from "./crypto/rsafacade";
-import { getDefaults } from "./defaults";
+import { getDefaults } from "./utils/defaults";
 import log from "loglevel";
 import { LocalStorageFacade } from "./persist/localStorageFacade";
 

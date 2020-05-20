@@ -1,5 +1,3 @@
-import log from "loglevel";
-
 export namespace BufUtils {
 
   export function base64encode(buf: ArrayBuffer): string {
