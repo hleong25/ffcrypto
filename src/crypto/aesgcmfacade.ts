@@ -42,13 +42,6 @@ export class AesGcmFacade {
         return this.getSubtle().exportKey("jwk", key);
     }
 
-    async importKey(jsonkey: string): Promise<CryptoKey> {
-        const jwk = <JsonWebKey>JSON.parse(jsonkey);
-        const algo: AesKeyGenParams = this.getKeyAlgorithm();
-        const keyUsages: string[] = this.getKeyUsages();
-        return this.getSubtle().importKey("jwk", jwk, algo, true, keyUsages)
-    }
-
     async importJsonWebKey(jwk: JsonWebKey): Promise<CryptoKey> {
         const keyUsages: string[] = this.getKeyUsages();
         log.log("importing " + keyUsages + " JsonWebKey")
