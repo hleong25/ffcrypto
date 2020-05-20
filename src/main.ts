@@ -3,7 +3,7 @@ import { updateTextbox, getComponentById } from "./domutils";
 import { RsaFacade } from "./crypto/rsafacade";
 import { getDefaults } from "./defaults";
 import log from "loglevel";
-import { LocalStorageFacade } from "./localStorageFacade";
+import { LocalStorageFacade } from "./persist/localStorageFacade";
 
 const ffcryptoDefaults = getDefaults();
 const rsaFacade = new RsaFacade();

@@ -1,4 +1,4 @@
-import { LocalStorageFacade } from "./localStorageFacade";
+import { LocalStorageFacade } from "./persist/localStorageFacade";
 import log from "loglevel";
 
 interface defaults {
