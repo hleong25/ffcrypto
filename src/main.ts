@@ -39,28 +39,23 @@ function bindUI() {
 function populateKeys(e: Event) {
     log.log("generating rsa keys", e);
 
-    updateTextbox("exported-private-key", "generating...");
-    updateTextbox("exported-public-key", "generating...");
-
     rsaFacade.generateKey()
         .then(keyPair => {
 
             rsaFacade.exportKey(keyPair.privateKey)
                 .then(exportedKey => {
-                    updateTextbox("exported-private-key", exportedKey);
                     LocalStorageFacade.persist('privateKey', exportedKey);
                 });
 
             rsaFacade.exportKey(keyPair.publicKey)
                 .then(exportedKey => {
-                    updateTextbox("exported-public-key", exportedKey);
                     LocalStorageFacade.persist('publicKey', exportedKey);
                 });
         })
 }
 
 function loadPersistedData(e: Event) {
-    updateTextbox("#data", ffcryptoDefaults.encryptedData || '');
+    updateTextbox("data", ffcryptoDefaults.encryptedData || '');
 }
 
 function encryptEventHandler(e: Event) {
