@@ -4,7 +4,7 @@ import { main } from "./main";
 log.enableAll(false);
 
 try {
-    log.info("ffcrypto starting " + (new Date).toISOString());
+    log.info("ffcrypto starting", (new Date).toISOString());
 
     main();
 

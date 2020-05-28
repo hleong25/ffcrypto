@@ -1,12 +1,9 @@
 import _ from "lodash";
 import { updateTextbox, getComponentById } from "./utils/domutils";
-import { getDefaults } from "./utils/defaults";
 import log from "loglevel";
 import { LocalStorageFacade } from "./persist/localStorageFacade";
 import { AesGcmService } from "./crypto/impl/AesGcmService";
 import { BufUtils } from "./utils/bufutils";
-
-const ffcryptoDefaults = getDefaults();
 
 let cryptoService!: ServiceCrypto;
 
@@ -24,11 +21,6 @@ function bindUI() {
     if (genKeysBtn) {
         genKeysBtn.onclick = onGenerateKeysHandler;
     }
-
-    // let persistDataBtn = getComponentById('persisted-data') as HTMLButtonElement;
-    // if (persistDataBtn) {
-    //     persistDataBtn.onclick = loadPersistedData;
-    // }
 
     let encryptBtn = getComponentById('encrypt-data') as HTMLButtonElement;
     if (encryptBtn) {
