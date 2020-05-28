@@ -9,7 +9,7 @@ export class AesGcmService implements ServiceCrypto {
     cryptoKey!: CryptoKey;
 
     private getSubtle(): SubtleCrypto {
-        return window.crypto.subtle;
+        return crypto.subtle;
     }
 
     generateKeys(): void {
