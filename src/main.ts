@@ -1,16 +1,12 @@
 import _ from "lodash";
 import { updateTextbox, getComponentById } from "./utils/domutils";
-import { RsaFacade } from "./crypto/rsafacade";
 import { getDefaults } from "./utils/defaults";
 import log from "loglevel";
 import { LocalStorageFacade } from "./persist/localStorageFacade";
-import { AesGcmFacade } from "./crypto/aesgcmfacade";
 import { AesGcmService } from "./crypto/impl/AesGcmService";
 import { BufUtils } from "./utils/bufutils";
 
 const ffcryptoDefaults = getDefaults();
-const rsaFacade = new RsaFacade();
-const aesGcmFacade = new AesGcmFacade();
 
 let cryptoService!: ServiceCrypto;
 
