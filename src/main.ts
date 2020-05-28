@@ -4,6 +4,7 @@ import log from "loglevel";
 import { LocalStorageFacade } from "./persist/localStorageFacade";
 import { AesGcmService } from "./crypto/impl/AesGcmService";
 import { BufUtils } from "./utils/bufutils";
+import { ImportKey } from "./crypto/ImportKey";
 
 let cryptoService!: ServiceCrypto;
 
@@ -30,6 +31,11 @@ function bindUI() {
     let decryptBtn = getComponentById('decrypt-data') as HTMLButtonElement;
     if (decryptBtn) {
         decryptBtn.onclick = onDecryptButtonHandler;
+    }
+
+    let importKeyInput = getComponentById('import-key') as HTMLInputElement
+    if (importKeyInput) {
+        importKeyInput.onchange = onImportKeyBtnHandler;
     }
 }
 
@@ -77,4 +83,39 @@ function onDecryptButtonHandler(e: Event) {
         .finally(() => {
             log.log("finished decrypting data...");
         });
+}
+
+function onImportKeyBtnHandler(e: Event) {
+
+    var elem: HTMLInputElement = e.target as HTMLInputElement;
+    var files: FileList = elem.files as FileList;
+    var file = files.item(0) as File;
+    
+    file.text()
+        .then(buf => {
+            ImportKey.importPrivateKey(buf)
+            .then(cryptoKey => {
+                log.info("cryptokey", cryptoKey);
+            })
+            .catch(err => {
+                log.error("failed to import key", err);
+            });
+        })
+        .catch(err => {
+            log.error("failed to get array buffer", err);
+        });
+ 
+//     file.arrayBuffer()
+//         .then(buf => {
+//             ImportKey.importPrivateKeyFromArrayBuffer(buf)
+//             .then(cryptoKey => {
+//                 log.info("cryptokey", cryptoKey);
+//             })
+//             .catch(err => {
+//                 log.error("failed to import key", err);
+//             });
+//         })
+//         .catch(err => {
+//             log.error("failed to get array buffer", err);
+//         });
 }
