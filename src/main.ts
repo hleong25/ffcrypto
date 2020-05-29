@@ -5,14 +5,22 @@ import { LocalStorageFacade } from "./persist/localStorageFacade";
 import { AesGcmService } from "./crypto/impl/AesGcmService";
 import { BufUtils } from "./utils/bufutils";
 import { ImportKey } from "./crypto/ImportKey";
+import container from "./injections";
+import Symbols from "./symbols";
 
 let cryptoService!: ServiceCrypto;
 
 export function main() {
-    bindUI();
+    // bindUI();
 
-    cryptoService = new AesGcmService();
-    cryptoService.loadKeys();
+    // cryptoService = new AesGcmService();
+    // cryptoService.loadKeys();
+
+    // container.bind<ServiceCrypto>(Symbols.ServiceCrypto).to(AesGcmService);
+
+    cryptoService = container.get<ServiceCrypto>(Symbols.AesGcmService);
+    log.info("cryptoService", cryptoService);
+    // cryptoService.loadKeys();
 }
 
 function bindUI() {

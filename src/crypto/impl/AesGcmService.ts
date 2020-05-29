@@ -1,7 +1,9 @@
 import { BufUtils } from "../../utils/bufutils";
 import { LocalStorageFacade } from "../../persist/localStorageFacade";
 import log from "loglevel";
+import { injectable } from "inversify";
 
+@injectable()
 export class AesGcmService implements ServiceCrypto {
 
     LS_KEY: string = 'aes-gcm-key';
