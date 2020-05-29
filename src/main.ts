@@ -90,32 +90,32 @@ function onImportKeyBtnHandler(e: Event) {
     var elem: HTMLInputElement = e.target as HTMLInputElement;
     var files: FileList = elem.files as FileList;
     var file = files.item(0) as File;
-    
+
     file.text()
         .then(buf => {
             ImportKey.importPrivateKey(buf)
-            .then(cryptoKey => {
-                log.info("cryptokey", cryptoKey);
-            })
-            .catch(err => {
-                log.error("failed to import key", err);
-            });
+                .then(cryptoKey => {
+                    log.info("cryptokey", cryptoKey);
+                })
+                .catch(err => {
+                    log.error("failed to import key", err);
+                });
         })
         .catch(err => {
             log.error("failed to get array buffer", err);
         });
- 
-//     file.arrayBuffer()
-//         .then(buf => {
-//             ImportKey.importPrivateKeyFromArrayBuffer(buf)
-//             .then(cryptoKey => {
-//                 log.info("cryptokey", cryptoKey);
-//             })
-//             .catch(err => {
-//                 log.error("failed to import key", err);
-//             });
-//         })
-//         .catch(err => {
-//             log.error("failed to get array buffer", err);
-//         });
+
+    //     file.arrayBuffer()
+    //         .then(buf => {
+    //             ImportKey.importPrivateKeyFromArrayBuffer(buf)
+    //             .then(cryptoKey => {
+    //                 log.info("cryptokey", cryptoKey);
+    //             })
+    //             .catch(err => {
+    //                 log.error("failed to import key", err);
+    //             });
+    //         })
+    //         .catch(err => {
+    //             log.error("failed to get array buffer", err);
+    //         });
 }
