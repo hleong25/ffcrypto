@@ -1,13 +1,24 @@
 import React, { ReactNode } from "react";
-import log from "loglevel";
-import { injectable } from "inversify";
+import "reflect-metadata";
+import container from "../src/injections";
+import Symbols from "../src/symbols";
 
 export class GenerateKeyButton extends React.Component {
 
-    onClickHandler(e : React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault();
+    cryptoService: ServiceCrypto;
 
-        log.info("hello world");
+    constructor(props: any) {
+        super(props);
+
+        this.onClickHandler = this.onClickHandler.bind(this);
+
+        this.cryptoService = container.get<ServiceCrypto>(Symbols.AesGcmService);
+    }
+
+
+    onClickHandler(e: React.MouseEvent<HTMLButtonElement>) : void {
+        e.preventDefault();
+        this.cryptoService.generateKeys();
     }
 
     render(): ReactNode {
