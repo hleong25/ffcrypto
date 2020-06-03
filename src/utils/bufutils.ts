@@ -1,5 +1,9 @@
 export namespace BufUtils {
 
+  export function ab2str(buf: ArrayBuffer): string {
+    return String.fromCharCode(...new Uint8Array(buf));
+  }
+
   export function base64encode(buf: ArrayBuffer): string {
     return btoa(String.fromCharCode(...new Uint8Array(buf)));
   }

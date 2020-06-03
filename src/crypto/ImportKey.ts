@@ -1,13 +1,13 @@
-import { BufUtils } from "../utils/bufutils";
 import log from "loglevel";
+import { BufUtils } from "../utils/bufutils";
 
 export namespace ImportKey {
-    export async function importPrivateKey(pem: string) : Promise<CryptoKey> {
+    export async function importPrivateKey(pem: string): Promise<CryptoKey> {
         // fetch the part of the PEM string between header and footer
         log.info("pem", pem);
         const pemHeader = "-----BEGIN PRIVATE KEY-----";
         const pemFooter = "-----END PRIVATE KEY-----";
-        const pemContents = pem.substring(pemHeader.length, pem.length - pemFooter.length-1).trim();
+        const pemContents = pem.substring(pemHeader.length, pem.length - pemFooter.length - 1).trim();
         log.info("contents", pemContents);
         // base64 decode the string to get the binary data
         const binaryDerString = window.atob(pemContents);
@@ -15,12 +15,12 @@ export namespace ImportKey {
         const binaryDer: ArrayBuffer = BufUtils.str2ab(binaryDerString);
 
         const rsaImport: RsaHashedImportParams = {
-                name: "RSA-PSS",
-                // Consider using a 4096-bit key for systems that require long-term security
-                // modulusLength: 2048,
-                // publicExponent: new Uint8Array([1, 0, 1]),
-                hash: "SHA-256",
-            }
+            name: "RSA-PSS",
+            // Consider using a 4096-bit key for systems that require long-term security
+            // modulusLength: 2048,
+            // publicExponent: new Uint8Array([1, 0, 1]),
+            hash: "SHA-256",
+        }
 
         return window.crypto.subtle.importKey(
             "pkcs8",
@@ -32,18 +32,18 @@ export namespace ImportKey {
     }
 
     export async function importPrivateKeyFromArrayBuffer(pem: ArrayBuffer): Promise<CryptoKey> {
-        log.info("pem", pem);
+        log.info("pem", pem, BufUtils.ab2str(pem));
 
-        const pemHeader = "-----BEGIN PRIVATE KEY-----";
-        const pemFooter = "-----END PRIVATE KEY-----";
+        const pemHeader = "-----BEGIN PRIVATE KEY-----\n";
+        const pemFooter = "\n-----END PRIVATE KEY-----";
         const pemContents = pem.slice(pemHeader.length, pem.byteLength - pemFooter.length);
         const rsaImport: RsaHashedImportParams = {
-                name: "RSA-PSS",
-                // Consider using a 4096-bit key for systems that require long-term security
-                // modulusLength: 2048,
-                // publicExponent: new Uint8Array([1, 0, 1]),
-                hash: "SHA-256",
-            }
+            name: "RSA-PSS",
+            // Consider using a 4096-bit key for systems that require long-term security
+            // modulusLength: 2048,
+            // publicExponent: new Uint8Array([1, 0, 1]),
+            hash: "SHA-256",
+        }
 
         return window.crypto.subtle.importKey(
             "pkcs8",
