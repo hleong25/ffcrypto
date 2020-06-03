@@ -31,17 +31,20 @@ export class ImportKeyButton extends React.Component {
         _.forEach(e.target.files, file => {
             log.info(file);
 
-            file.arrayBuffer()
+            file.text()
                 .then(buf => {
-                    ImportKey.importPrivateKeyFromArrayBuffer(buf)
+                    ImportKey.importPrivateKey(buf)
                         .then(cryptoKey => {
                             log.info("cryptokey", cryptoKey);
                         })
                         .catch(err => {
                             log.error("failed to import key", err);
-                            this.setState({ error: err });
                         });
                 })
+                .catch(err => {
+                    log.error("failed to import key", err);
+                    this.setState({ error: err });
+                });
         });
 
     }

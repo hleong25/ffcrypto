@@ -9,7 +9,7 @@ import { getComponentById, updateTextbox } from "./utils/domutils";
 let cryptoService!: ServiceCrypto;
 
 export function main() {
-    // bindUI();
+    bindUI();
 
     // cryptoService = new AesGcmService();
     // cryptoService.loadKeys();
