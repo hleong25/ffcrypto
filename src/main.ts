@@ -1,12 +1,10 @@
-import _ from "lodash";
-import { updateTextbox, getComponentById } from "./utils/domutils";
 import log from "loglevel";
-import { LocalStorageFacade } from "./persist/localStorageFacade";
-import { AesGcmService } from "./crypto/impl/AesGcmService";
-import { BufUtils } from "./utils/bufutils";
 import { ImportKey } from "./crypto/ImportKey";
 import container from "./injections";
+import { LocalStorageFacade } from "./persist/localStorageFacade";
 import Symbols from "./symbols";
+import { BufUtils } from "./utils/bufutils";
+import { getComponentById, updateTextbox } from "./utils/domutils";
 
 let cryptoService!: ServiceCrypto;
 
@@ -16,9 +14,8 @@ export function main() {
     // cryptoService = new AesGcmService();
     // cryptoService.loadKeys();
 
-    // container.bind<ServiceCrypto>(Symbols.ServiceCrypto).to(AesGcmService);
-
     cryptoService = container.get<ServiceCrypto>(Symbols.AesGcmService);
+
     log.info("cryptoService", cryptoService);
     // cryptoService.loadKeys();
 }

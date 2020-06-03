@@ -1,7 +1,7 @@
+import { Container } from "inversify";
 import "reflect-metadata";
-import { Container } from "inversify"
-import { AesGcmService } from "./crypto/impl/AesGcmService";
 import Symbols from "./symbols";
+import { AesGcmService } from "./crypto/impl/AesGcmService";
 
 var container = new Container();
 container.bind<ServiceCrypto>(Symbols.AesGcmService).to(AesGcmService);
