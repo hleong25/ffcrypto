@@ -2,11 +2,13 @@ import _ from "lodash";
 import log from "loglevel";
 import React, { ErrorInfo, ReactNode } from "react";
 import "reflect-metadata";
-import { ImportKey } from "../src/crypto/ImportKey";
+import Symbols from "../src/symbols";
+import container from "../src/injections";
 
 export class ImportKeyButton extends React.Component {
 
     state: any;
+    importKeyService: ImportKeyService;
 
     constructor(props: any) {
         super(props);
@@ -14,6 +16,7 @@ export class ImportKeyButton extends React.Component {
         this.onChangeHandler = this.onChangeHandler.bind(this);
 
         this.state = { error: null };
+        this.importKeyService = container.get<ImportKeyService>(Symbols.ImportKeyService);
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -33,7 +36,7 @@ export class ImportKeyButton extends React.Component {
 
             file.text()
                 .then(buf => {
-                    ImportKey.importPrivateKey(buf)
+                    this.importKeyService.importKey(buf)
                         .then(cryptoKey => {
                             log.info("cryptokey", cryptoKey);
                         })
