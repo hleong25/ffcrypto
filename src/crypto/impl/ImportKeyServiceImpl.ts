@@ -85,23 +85,14 @@ export class ImportKeyServiceImpl implements ImportKeyService {
     }
 
     private getKeyContents(pem: string, regexBegin: RegExp, regexEnd: RegExp): string | null {
-        let startIdx: number = -1;
-        let endIdx: number = -1;
-
-        if (regexBegin.test(pem)) {
-            startIdx = regexBegin.lastIndex;
-        }
-
-        if (regexEnd.test(pem)) {
-            endIdx = pem.search(regexEnd);
-        }
-
-        if (startIdx < 0 && endIdx < 0) {
+        if (!regexBegin.test(pem) && !regexEnd.test(pem)) {
             return null;
         }
 
+        const startIdx: number = regexBegin.lastIndex;
+        const endIdx: number = pem.search(regexEnd);
+
         return pem.slice(startIdx, endIdx);
     }
-
 
 }
