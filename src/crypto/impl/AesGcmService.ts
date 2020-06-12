@@ -99,7 +99,7 @@ export class AesGcmService implements ServiceCrypto {
     async decrypt(passphrase: string, base64data: string): Promise<ArrayBuffer> {
         const algo: AesGcmParams = this.getAesGcmParams(passphrase);
         const key: CryptoKey = this.cryptoKey;
-        const buf = BufUtils.base64decode(base64data);
+        const buf: ArrayBuffer = BufUtils.base64decode(base64data);
 
         return this.getSubtle().decrypt(algo, key, buf);
     }
