@@ -93,6 +93,8 @@ export class AesGcmService implements ServiceCrypto {
         const algo: AesGcmParams = this.getAesGcmParams(passphrase);
         const key: CryptoKey = this.cryptoKey;
 
+        log.info("algo", algo, "key", key);
+
         return this.getSubtle().encrypt(algo, key, data);
     }
 
