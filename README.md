@@ -1,5 +1,9 @@
 # ffcrypto
 
+## install required node modules
+
+`npm install`
+
 ## generate key
 
 `openssl genrsa -des3 -out private.pem 2048`
