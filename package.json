@@ -4,6 +4,7 @@
   "description": "tbd",
   "main": "dist/bundle.js",
   "scripts": {
+    "build-dev": "webpack --mode development --display-modules --progress",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpackdev": "npx webpack -d --display-modules --progress --auto",
     "webpackprod": "npx webpack -p --display-modules --progress --auto"
