@@ -4,6 +4,11 @@
 
 `npm install`
 
+## build
+
+cli: `npm run build-dev`
+vscode: `ctrl+shift+p` > `Debug NPM Script` > `build-dev
+
 ## generate key
 
 `openssl genrsa -des3 -out private.pem 2048`
