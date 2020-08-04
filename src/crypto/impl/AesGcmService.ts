@@ -20,7 +20,7 @@ export class AesGcmService implements ServiceCrypto {
             length: 256,
         };
 
-        const keyUsages: string[] = ["encrypt", "decrypt"];
+        const keyUsages: KeyUsage[] = ["encrypt", "decrypt"];
 
         let genKeyPromise = this.getSubtle().generateKey(algo, true, keyUsages) as Promise<CryptoKey>;
 
@@ -40,7 +40,7 @@ export class AesGcmService implements ServiceCrypto {
 
     loadKeys(): void {
         const jwk: JsonWebKey = LocalStorageFacade.fetch(this.LS_KEY);
-        const keyUsages: string[] = ["encrypt", "decrypt"];
+        const keyUsages: KeyUsage[] = ["encrypt", "decrypt"];
         const keyAlgo: AesKeyAlgorithm = {
             name: "AES-GCM",
             length: 256,
