@@ -78,7 +78,7 @@ export class AesGcmService implements ServiceCrypto {
     }
 
     private generateInitialVector(passphrase: string): Uint8Array {
-        const buf: ArrayBuffer = BufUtils.base64decode(passphrase);
+        const buf: ArrayBuffer = BufUtils.str2ab(passphrase);
         return new Uint8Array(buf);
     }
 
@@ -89,15 +89,31 @@ export class AesGcmService implements ServiceCrypto {
         };
     }
 
+    /**
+     * Encrypts the data using the passpharse.
+     * 
+     * @param passphrase user input for passphrase
+     * @param data the data to encrypt
+     * 
+     * @returns the encrypted data in an ArrayBuffer
+     */
     async encrypt(passphrase: string, data: ArrayBuffer): Promise<ArrayBuffer> {
         const algo: AesGcmParams = this.getAesGcmParams(passphrase);
         const key: CryptoKey = this.cryptoKey;
 
-        log.info("algo", algo, "key", key);
+        // log.info("algo", algo, "key", key);
 
         return this.getSubtle().encrypt(algo, key, data);
     }
 
+    /**
+     * Decrypts the data using the passphrase.
+     * 
+     * @param passphrase user input for passphrase
+     * @param base64data the encoded data
+     * 
+     * @returns the decrypted data in ArrayBuffer
+     */
     async decrypt(passphrase: string, base64data: string): Promise<ArrayBuffer> {
         const algo: AesGcmParams = this.getAesGcmParams(passphrase);
         const key: CryptoKey = this.cryptoKey;

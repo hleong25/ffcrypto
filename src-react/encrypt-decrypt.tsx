@@ -30,6 +30,10 @@ export class EncryptDecryptPanel extends React.Component {
         log.error(error.toString(), errorInfo.componentStack);
     }
 
+    getPassphrase(): string {
+        return "henry";
+    }
+
     encryptOnClickHandler(e: React.MouseEvent<HTMLButtonElement>): void {
         e.preventDefault();
 
@@ -37,14 +41,13 @@ export class EncryptDecryptPanel extends React.Component {
 
         const enc = new TextEncoder();
         const encodedMsg: Uint8Array = enc.encode(this.state.txtdata);
+        const passphrase = this.getPassphrase();
 
         this.cryptoService
-            .encrypt('henry', encodedMsg)
+            .encrypt(passphrase, encodedMsg)
             .then(buf => {
-                log.info("henry", buf);
-                // const base64str: string = BufUtils.base64encode(buf);
-                // log.info("encrypt buf", base64str);
-                // this.setState({ txtdata: base64str });
+                const base64str: string = BufUtils.base64encode(buf);
+                this.setState({ txtdata: base64str });
             })
             .catch(err => {
                 log.error("failed to encrypt data", err);
@@ -56,7 +59,24 @@ export class EncryptDecryptPanel extends React.Component {
 
     decryptOnClickHandler(e: React.MouseEvent<HTMLButtonElement>): void {
         e.preventDefault();
-        // this.cryptoService.generateKeys();
+
+        log.info("decrypting data...");
+
+        const encodedMsg: string = this.state.txtdata;
+        const passphrase = this.getPassphrase();
+
+        this.cryptoService
+            .decrypt(passphrase, encodedMsg)
+            .then(buf => {
+                const base64str: string = BufUtils.ab2str(buf);
+                this.setState({ txtdata: base64str });
+            })
+            .catch(err => {
+                log.error("failed to decrypt data", err);
+            })
+            .finally(() => {
+                log.info("finished decrypting data");
+            });
     }
 
     txtdataOnChangeHandler(e: React.ChangeEvent<HTMLTextAreaElement>): void {

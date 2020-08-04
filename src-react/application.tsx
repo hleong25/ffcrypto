@@ -8,7 +8,6 @@ export class Application extends React.Component {
 
     render(): ReactNode {
         return <div>
-            <h1>hello world</h1>
             <GenerateKeyButton />
             <ImportKeyButton />
             <br/>
