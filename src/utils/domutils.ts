@@ -1,6 +1,8 @@
 import log from "loglevel";
 import _ from "lodash";
 
+// deprecated
+
 export function updateTextbox(txtboxId: string, object: any) {
   const txtbox = getComponentById(txtboxId) as HTMLTextAreaElement;
 
