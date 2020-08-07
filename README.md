@@ -1,5 +1,9 @@
 # ffcrypto
 
+## vscode setup
+
+install jest for unit testing
+
 ## install required node modules
 
 `npm install`

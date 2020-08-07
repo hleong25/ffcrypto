@@ -2,13 +2,22 @@ import { BufUtils } from "../../utils/bufutils";
 import { LocalStorageFacade } from "../../persist/localStorageFacade";
 import log from "loglevel";
 import { injectable } from "inversify";
+import container from "../../injections";
+import Symbols from "../../symbols";
+import { Buffer } from 'buffer';
 
 @injectable()
 export class AesGcmService implements ServiceCrypto {
 
     LS_KEY: string = 'aes-gcm-key';
 
+    bufUtils: BufUtils;
+
     cryptoKey!: CryptoKey;
+
+    constructor() {
+        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
+    }
 
     private getSubtle(): SubtleCrypto {
         return crypto.subtle;
@@ -77,9 +86,8 @@ export class AesGcmService implements ServiceCrypto {
             });
     }
 
-    private generateInitialVector(passphrase: string): Uint8Array {
-        const buf: ArrayBuffer = BufUtils.str2ab(passphrase);
-        return new Uint8Array(buf);
+    private generateInitialVector(passphrase: string): Buffer {
+        return this.bufUtils.str2buffer(passphrase);
     }
 
     private getAesGcmParams(passphrase: string): AesGcmParams {
@@ -117,7 +125,7 @@ export class AesGcmService implements ServiceCrypto {
     async decrypt(passphrase: string, base64data: string): Promise<ArrayBuffer> {
         const algo: AesGcmParams = this.getAesGcmParams(passphrase);
         const key: CryptoKey = this.cryptoKey;
-        const buf: ArrayBuffer = BufUtils.base64decode(base64data);
+        const buf: ArrayBuffer = this.bufUtils.base64decode(base64data);
 
         return this.getSubtle().decrypt(algo, key, buf);
     }

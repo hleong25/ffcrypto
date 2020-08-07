@@ -3,11 +3,13 @@ import container from "../src/injections";
 import Symbols from "../src/symbols";
 import log from "loglevel";
 import { BufUtils } from "../src/utils/bufutils";
+import { Buffer } from 'buffer';
 
 export class EncryptDecryptPanel extends React.Component {
 
     state: any;
     cryptoService: ServiceCrypto;
+    bufUtils: BufUtils;
 
     constructor(props: any) {
         super(props);
@@ -21,6 +23,7 @@ export class EncryptDecryptPanel extends React.Component {
             txtdata: "hello world!",
         };
 
+        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
         this.cryptoService = container.get<ServiceCrypto>(Symbols.AesGcmService);
         this.cryptoService.loadKeys();
     }
@@ -39,14 +42,13 @@ export class EncryptDecryptPanel extends React.Component {
 
         log.info("encrypting data...");
 
-        const enc = new TextEncoder();
-        const encodedMsg: Uint8Array = enc.encode(this.state.txtdata);
-        const passphrase = this.getPassphrase();
+        const msgBuf: Buffer = Buffer.from(this.state.txtdata);
+        const passphrase: string = this.getPassphrase();
 
         this.cryptoService
-            .encrypt(passphrase, encodedMsg)
+            .encrypt(passphrase, msgBuf)
             .then(buf => {
-                const base64str: string = BufUtils.base64encode(buf);
+                const base64str: string = this.bufUtils.base64encode(buf);
                 this.setState({ txtdata: base64str });
             })
             .catch(err => {
@@ -68,7 +70,7 @@ export class EncryptDecryptPanel extends React.Component {
         this.cryptoService
             .decrypt(passphrase, encodedMsg)
             .then(buf => {
-                const base64str: string = BufUtils.ab2str(buf);
+                const base64str: string = this.bufUtils.buffer2str(buf);
                 this.setState({ txtdata: base64str });
             })
             .catch(err => {

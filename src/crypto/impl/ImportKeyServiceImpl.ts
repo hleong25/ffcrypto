@@ -1,9 +1,18 @@
 import { injectable } from "inversify";
 import log from "loglevel";
 import { BufUtils } from "../../utils/bufutils";
+import container from "../../injections";
+import Symbols from "../../symbols";
+import { Buffer } from 'buffer';
 
 @injectable()
 export class ImportKeyServiceImpl implements ImportKeyService {
+
+    bufUtils: BufUtils;
+
+    constructor() {
+        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
+    }
 
     private getSubtle(): SubtleCrypto {
         return crypto.subtle;
@@ -41,7 +50,7 @@ export class ImportKeyServiceImpl implements ImportKeyService {
         }
 
         const binaryDerString = window.atob(contents);
-        const binaryDer: ArrayBuffer = BufUtils.str2ab(binaryDerString);
+        const binaryDer: Buffer = this.bufUtils.str2buffer(binaryDerString);
 
         const rsaImport: RsaHashedImportParams = {
             name: "RSA-OAEP",
@@ -68,7 +77,7 @@ export class ImportKeyServiceImpl implements ImportKeyService {
         }
 
         const binaryDerString = window.atob(contents);
-        const binaryDer: ArrayBuffer = BufUtils.str2ab(binaryDerString);
+        const binaryDer: Buffer = this.bufUtils.str2buffer(binaryDerString);
 
         const rsaImport: RsaHashedImportParams = {
             name: "RSA-PSS",

@@ -1,30 +1,47 @@
-export namespace BufUtils {
+import { injectable } from "inversify";
+import { Buffer } from 'buffer';
 
-  export function ab2str(buf: ArrayBuffer): string {
-    return String.fromCharCode(...new Uint8Array(buf));
-  }
+@injectable()
+export class BufUtils {
 
-  export function base64encode(buf: ArrayBuffer): string {
-    return btoa(String.fromCharCode(...new Uint8Array(buf)));
-  }
-
-  export function base64decode(base64: string): ArrayBuffer {
-    var binary_string = window.atob(base64);
-    var len = binary_string.length;
-    var bytes = new Uint8Array(len);
-    for (var i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
+  /**
+   * converts the buffer to string
+   * @param buf ArrayBuffer or Buffer
+   * @returns string
+   */
+  buffer2str(buf: ArrayBuffer | Buffer): string {
+    if (buf instanceof Buffer) {
+      return buf.toString();
+    } else {
+      return Buffer.from(new Uint8Array(buf)).toString();
     }
-    return bytes.buffer;
   }
 
-  export function str2ab(str: string): ArrayBuffer {
-    const buf = new ArrayBuffer(str.length);
-    const bufView = new Uint8Array(buf);
-    for (let i = 0, strLen = str.length; i < strLen; i++) {
-      bufView[i] = str.charCodeAt(i);
-    }
-    return buf;
+  /**
+   * converts string to Buffer
+   * @param str
+   * @returns Buffer
+   */
+  str2buffer(str: string): Buffer {
+    return Buffer.from(str);
+  }
+
+  /**
+   * encodes the buffer to base64
+   * @param buf
+   * @returns base64 string format
+   */
+  base64encode(buf: ArrayBuffer): string {
+    return Buffer.from(new Uint8Array(buf)).toString('base64');
+  }
+
+  /**
+   * decodes the base64 string to buffer
+   * @param base64
+   * @returns buffer
+   */
+  base64decode(base64: string): Buffer {
+    return Buffer.from(base64, 'base64');
   }
 
 }
