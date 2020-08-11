@@ -10,6 +10,10 @@ interface PersistData {
 @injectable()
 export class LocalStorageFacade {
 
+    getLocalStorage(): Storage {
+        return localStorage;
+    }
+
     persist(key: string, value: any) {
         let data: PersistData = {
             timestamp: _.now(),
@@ -24,12 +28,12 @@ export class LocalStorageFacade {
             + " key:" + key + " value-type:" + typeof value);
         // log.debug("local persist value: " + value);
 
-        window.localStorage.setItem(key, jsonData);
+        this.getLocalStorage().setItem(key, jsonData);
     }
 
     fetch(key: string): any {
         log.debug("local fetch key:" + key);
-        let str = window.localStorage.getItem(key);
+        let str = this.getLocalStorage().getItem(key);
         let data: PersistData = str && JSON.parse(str);
 
         if (data === null) {
