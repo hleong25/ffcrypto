@@ -1,14 +1,16 @@
+import { injectable } from "inversify";
 import log from "loglevel";
 import _ from "lodash";
 
-export namespace LocalStorageFacade {
+interface PersistData {
+    timestamp: number,
+    data: any,
+}
 
-    interface PersistData {
-        timestamp: number,
-        data: any,
-    }
+@injectable()
+export class LocalStorageFacade {
 
-    export function persist(key: string, value: any) {
+    persist(key: string, value: any) {
         let data: PersistData = {
             timestamp: _.now(),
             data: value,
@@ -25,7 +27,7 @@ export namespace LocalStorageFacade {
         window.localStorage.setItem(key, jsonData);
     }
 
-    export function fetch(key: string): any {
+    fetch(key: string): any {
         log.debug("local fetch key:" + key);
         let str = window.localStorage.getItem(key);
         let data: PersistData = str && JSON.parse(str);
@@ -39,5 +41,6 @@ export namespace LocalStorageFacade {
 
         return data.data;
     }
+
 
 }

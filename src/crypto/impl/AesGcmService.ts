@@ -1,5 +1,5 @@
 import { BufUtils } from "../../utils/bufutils";
-import { LocalStorageFacade } from "../../persist/localStorageFacade";
+import { LocalStorageFacade } from "../../persist/LocalStorageFacade";
 import log from "loglevel";
 import { injectable } from "inversify";
 import container from "../../injections";
@@ -12,11 +12,13 @@ export class AesGcmService implements ServiceCrypto {
     LS_KEY: string = 'aes-gcm-key';
 
     bufUtils: BufUtils;
+    localStorageFacade: LocalStorageFacade;
 
     cryptoKey!: CryptoKey;
 
     constructor() {
         this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
+        this.localStorageFacade = container.get<LocalStorageFacade>(Symbols.LocalStorageFacade);
     }
 
     private getSubtle(): SubtleCrypto {
@@ -48,7 +50,7 @@ export class AesGcmService implements ServiceCrypto {
     }
 
     loadKeys(): void {
-        const jwk: JsonWebKey = LocalStorageFacade.fetch(this.LS_KEY);
+        const jwk: JsonWebKey = this.localStorageFacade.fetch(this.LS_KEY);
         const keyUsages: KeyUsage[] = ["encrypt", "decrypt"];
         const keyAlgo: AesKeyAlgorithm = {
             name: "AES-GCM",
@@ -76,7 +78,7 @@ export class AesGcmService implements ServiceCrypto {
         exportKeyPromise
             .then(jwk => {
                 log.info("export key", jwk);
-                LocalStorageFacade.persist(this.LS_KEY, jwk);
+                this.localStorageFacade.persist(this.LS_KEY, jwk);
             })
             .catch(err => {
                 log.error("failed to export aes-gcm key", err);
