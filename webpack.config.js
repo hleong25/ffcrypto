@@ -8,14 +8,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        // Include ts, tsx, js, and jsx files.
+        test: /\.(ts|js)x?$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.json'],
   },
   output: {
     filename: 'bundle.js',

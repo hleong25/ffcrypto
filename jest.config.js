@@ -3,6 +3,5 @@ module.exports = {
   testEnvironment: 'node',
   setupFiles: [
     './src/injections.ts',
-    'jest-localstorage-mock',
   ]
 };
