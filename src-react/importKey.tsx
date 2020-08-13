@@ -1,22 +1,25 @@
+import { inject } from "inversify";
 import _ from "lodash";
 import log from "loglevel";
 import React, { ErrorInfo, ReactNode } from "react";
 import "reflect-metadata";
 import Symbols from "../src/symbols";
-import container from "../src/injections";
 
 export class ImportKeyButton extends React.Component {
 
     state: any;
     importKeyService: ImportKeyService;
 
-    constructor(props: any) {
+    constructor(
+        props: any,
+        @inject(Symbols.ImportKeyService) importKeyService: ImportKeyService
+    ) {
         super(props);
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
 
         this.state = { error: null };
-        this.importKeyService = container.get<ImportKeyService>(Symbols.ImportKeyService);
+        this.importKeyService = importKeyService;
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {

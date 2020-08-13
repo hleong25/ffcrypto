@@ -1,10 +1,9 @@
-import { BufUtils } from "../../utils/bufutils";
-import { LocalStorageFacade } from "../../persist/LocalStorageFacade";
-import log from "loglevel";
-import { injectable } from "inversify";
-import container from "../../injections";
-import Symbols from "../../symbols";
 import { Buffer } from 'buffer';
+import { inject, injectable } from "inversify";
+import log from "loglevel";
+import { LocalStorageFacade } from "../../persist/LocalStorageFacade";
+import Symbols from "../../symbols";
+import { BufUtils } from "../../utils/bufutils";
 
 @injectable()
 export class AesGcmService implements ServiceCrypto {
@@ -13,12 +12,14 @@ export class AesGcmService implements ServiceCrypto {
 
     bufUtils: BufUtils;
     localStorageFacade: LocalStorageFacade;
-
     cryptoKey!: CryptoKey;
 
-    constructor() {
-        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
-        this.localStorageFacade = container.get<LocalStorageFacade>(Symbols.LocalStorageFacade);
+    constructor(
+        @inject(Symbols.BufUtils) bufUtils: BufUtils,
+        @inject(Symbols.LocalStorageFacade) localStorageFacade: LocalStorageFacade
+    ) {
+        this.bufUtils = bufUtils;
+        this.localStorageFacade = localStorageFacade;
     }
 
     private getSubtle(): SubtleCrypto {

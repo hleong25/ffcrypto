@@ -1,17 +1,18 @@
-import { injectable } from "inversify";
-import log from "loglevel";
-import { BufUtils } from "../../utils/bufutils";
-import container from "../../injections";
-import Symbols from "../../symbols";
 import { Buffer } from 'buffer';
+import { inject, injectable } from "inversify";
+import log from "loglevel";
+import Symbols from "../../symbols";
+import { BufUtils } from "../../utils/bufutils";
 
 @injectable()
 export class ImportKeyServiceImpl implements ImportKeyService {
 
     bufUtils: BufUtils;
 
-    constructor() {
-        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
+    constructor(
+        @inject(Symbols.BufUtils) bufUtils: BufUtils,
+    ) {
+        this.bufUtils = bufUtils;
     }
 
     private getSubtle(): SubtleCrypto {

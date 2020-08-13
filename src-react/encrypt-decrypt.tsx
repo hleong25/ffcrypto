@@ -1,9 +1,9 @@
-import React, { ErrorInfo, ReactNode } from "react";
-import container from "../src/injections";
-import Symbols from "../src/symbols";
-import log from "loglevel";
-import { BufUtils } from "../src/utils/bufutils";
 import { Buffer } from 'buffer';
+import { inject } from "inversify";
+import log from "loglevel";
+import React, { ErrorInfo, ReactNode } from "react";
+import Symbols from "../src/symbols";
+import { BufUtils } from "../src/utils/bufutils";
 
 export class EncryptDecryptPanel extends React.Component {
 
@@ -11,7 +11,11 @@ export class EncryptDecryptPanel extends React.Component {
     cryptoService: ServiceCrypto;
     bufUtils: BufUtils;
 
-    constructor(props: any) {
+    constructor(
+        props: any,
+        @inject(Symbols.BufUtils) bufUtils: BufUtils,
+        @inject(Symbols.AesGcmService) cryptoService: ServiceCrypto
+    ) {
         super(props);
 
         this.encryptOnClickHandler = this.encryptOnClickHandler.bind(this);
@@ -23,8 +27,8 @@ export class EncryptDecryptPanel extends React.Component {
             txtdata: "hello world!",
         };
 
-        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
-        this.cryptoService = container.get<ServiceCrypto>(Symbols.AesGcmService);
+        this.bufUtils = bufUtils;
+        this.cryptoService = cryptoService;
         this.cryptoService.loadKeys();
     }
 
