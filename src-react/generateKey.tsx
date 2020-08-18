@@ -1,7 +1,7 @@
-import { inject } from "inversify";
 import log from "loglevel";
 import React, { ErrorInfo, ReactNode } from "react";
-import "reflect-metadata";
+import { AesGcmService } from "../src/crypto/impl/AesGcmService";
+import container from "../src/inversify.config";
 import Symbols from "../src/symbols";
 
 export class GenerateKeyButton extends React.Component {
@@ -9,16 +9,13 @@ export class GenerateKeyButton extends React.Component {
     state: any;
     cryptoService: ServiceCrypto;
 
-    constructor(
-        props: any,
-        @inject(Symbols.AesGcmService) cryptoService: ServiceCrypto
-    ) {
+    constructor(props: any) {
         super(props);
 
         this.onClickHandler = this.onClickHandler.bind(this);
 
         this.state = { hasErrors: false };
-        this.cryptoService = cryptoService;
+        this.cryptoService = container.get<AesGcmService>(Symbols.AesGcmService);
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {

@@ -1,10 +1,10 @@
 import { Container } from "inversify";
 import "reflect-metadata";
-import Symbols from "./symbols";
 import { AesGcmService } from "./crypto/impl/AesGcmService";
 import { ImportKeyServiceImpl } from "./crypto/impl/ImportKeyServiceImpl";
-import { BufUtils } from "./utils/bufutils";
 import { LocalStorageFacade } from "./persist/LocalStorageFacade";
+import Symbols from "./symbols";
+import { BufUtils } from "./utils/bufutils";
 
 var container = new Container();
 container.bind<LocalStorageFacade>(Symbols.LocalStorageFacade).to(LocalStorageFacade);

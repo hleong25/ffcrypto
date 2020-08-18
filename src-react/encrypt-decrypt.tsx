@@ -1,7 +1,8 @@
 import { Buffer } from 'buffer';
-import { inject } from "inversify";
 import log from "loglevel";
 import React, { ErrorInfo, ReactNode } from "react";
+import { AesGcmService } from '../src/crypto/impl/AesGcmService';
+import container from '../src/inversify.config';
 import Symbols from "../src/symbols";
 import { BufUtils } from "../src/utils/bufutils";
 
@@ -11,11 +12,7 @@ export class EncryptDecryptPanel extends React.Component {
     cryptoService: ServiceCrypto;
     bufUtils: BufUtils;
 
-    constructor(
-        props: any,
-        @inject(Symbols.BufUtils) bufUtils: BufUtils,
-        @inject(Symbols.AesGcmService) cryptoService: ServiceCrypto
-    ) {
+    constructor(props: any) {
         super(props);
 
         this.encryptOnClickHandler = this.encryptOnClickHandler.bind(this);
@@ -27,8 +24,8 @@ export class EncryptDecryptPanel extends React.Component {
             txtdata: "hello world!",
         };
 
-        this.bufUtils = bufUtils;
-        this.cryptoService = cryptoService;
+        this.bufUtils = container.get<BufUtils>(Symbols.BufUtils);
+        this.cryptoService = container.get<AesGcmService>(Symbols.AesGcmService);
         this.cryptoService.loadKeys();
     }
 

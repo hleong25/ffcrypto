@@ -2,7 +2,6 @@ import { inject } from "inversify";
 import _ from "lodash";
 import log from "loglevel";
 import React, { ErrorInfo, ReactNode } from "react";
-import "reflect-metadata";
 import Symbols from "../src/symbols";
 
 export class ImportKeyButton extends React.Component {
