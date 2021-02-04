@@ -28,6 +28,7 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-parameter-decorator": "^1.0.16",
     "jest": "^26.3.0",
+    "jest-localstorage-mock": "^2.4.3",
     "ts-jest": "^26.2.0",
     "typescript": "^3.9.7",
     "webpack": "^4.44.1",

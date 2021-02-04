@@ -1,5 +1,5 @@
-{
-    "presets": [
+module.exports = {
+    presets: [
         [
             "@babel/preset-env",
             {
@@ -8,10 +8,10 @@
                 }
             }
         ],
-        "@babel/preset-typescript",
-        "@babel/react"
+        "@babel/preset-typescript"
+        // "@babel/react"
     ],
-    "plugins": [
+    plugins: [
         [
             "@babel/plugin-proposal-decorators",
             {

@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import log from "loglevel";
 import _ from "lodash";
+import log from "loglevel";
 
 interface PersistData {
     timestamp: number,
